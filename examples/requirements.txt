@@ -1,0 +1,11 @@
+# 10 Plain English Hardware Test Requirements
+1. check that the output ripple of this power supply is under 50 mV
+2. verify the 3.3V power supply rail output voltage accuracy within 2%
+3. measure DC output voltage of regulator with 5V input
+4. check power supply current consumption is under 100 mA at 3.3V
+5. measure signal output frequency of oscillator around 1 kHz within 1%
+6. test 1.8V rail ripple voltage is below 30 mV Vpp
+7. verify 5.0V power rail voltage is between 4.9V and 5.1V
+8. measure current draw under 500 mA load
+9. check output ripple < 20 mV
+10. check power supply
