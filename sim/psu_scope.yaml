@@ -1,0 +1,63 @@
+spec: "1.0"
+devices:
+  psu:
+    eavesdrop: false
+    prompt: ""
+    terminator: "\n"
+    commands:
+      "*IDN?":
+        response: "RIGOL TECHNOLOGIES,DP832,DP8A000000001,00.01.11"
+      "*ESR?":
+        response: "0"
+      "SYST:ERR?":
+        response: '0,"No error"'
+      "VOLT {value}":
+        sub-commands:
+          type: float
+          min: 0.0
+          max: 30.0
+      "CURR {value}":
+        sub-commands:
+          type: float
+          min: 0.0
+          max: 5.0
+      "OUTP ON":
+        response: ""
+      "OUTP OFF":
+        response: ""
+      "MEAS:VOLT?":
+        response: "3.298"
+      "MEAS:CURR?":
+        response: "0.048"
+
+  scope:
+    eavesdrop: false
+    prompt: ""
+    terminator: "\n"
+    commands:
+      "*IDN?":
+        response: "KEYSIGHT TECHNOLOGIES,DSOX1204G,MY59001234,02.10.2019061000"
+      "*ESR?":
+        response: "0"
+      "SYST:ERR?":
+        response: '0,"No error"'
+      "CHAN1:COUP AC":
+        response: ""
+      "CHAN1:COUP DC":
+        response: ""
+      "TIM:SCAL {value}":
+        sub-commands:
+          type: float
+      "CHAN1:SCAL {value}":
+        sub-commands:
+          type: float
+      "MEAS:VPP? CHAN1":
+        response: "0.022"
+      "MEAS:FREQ? CHAN1":
+        response: "1000.0"
+
+resources:
+  ASRL1::INSTR:
+    device: psu
+  USB0::0x0957::0x1796::MY59001234::INSTR:
+    device: scope
