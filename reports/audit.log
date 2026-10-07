@@ -2142,3 +2142,185 @@
 2026-10-06 19:52:03,385 [WARNING] hw_test_agent (validator.py:73) - Safety Validation Failure: ['Requested voltage 50.0V exceeds maximum safety limit of 12.0V']
 2026-10-06 19:52:03,388 [WARNING] hw_test_agent (validator.py:73) - Safety Validation Failure: ['Requested current limit 5.0A exceeds maximum safety limit of 2.0A']
 2026-10-06 19:52:03,392 [WARNING] hw_test_agent (validator.py:73) - Safety Validation Failure: ["Command 'FOOBAR:BAZ 123' is not in the allowed SCPI whitelist database"]
+2026-10-07 15:14:37,130 [INFO] hw_test_agent (orchestrator.py:50) - === Starting Hardware Test Execution for: 'check that the output ripple of this power supply is under 50 mV' ===
+2026-10-07 15:14:37,149 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'check that the output ripple of this power supply is under 50 mV'
+2026-10-07 15:14:37,155 [INFO] hw_test_agent (client.py:40) - LLMClient running in offline/mock mode.
+2026-10-07 15:14:37,164 [INFO] hw_test_agent (orchestrator.py:70) - Parsed TestSpec: Ripple Test (Measurement: MeasurementType.RIPPLE)
+2026-10-07 15:14:37,172 [INFO] hw_test_agent (planner.py:13) - Planning step sequence for spec: Ripple Test (MeasurementType.RIPPLE)
+2026-10-07 15:14:37,409 [INFO] hw_test_agent (orchestrator.py:105) - Test Execution Attempt 1/3
+2026-10-07 15:14:37,422 [INFO] hw_test_agent (simulated.py:26) - Connected to Simulated_PSU_DP832
+2026-10-07 15:14:37,440 [INFO] hw_test_agent (simulated.py:123) - Connected to Simulated_Scope_DSOX1204G
+2026-10-07 15:14:37,463 [INFO] hw_test_agent (executor.py:21) - Executing Step 1: Set current limit
+2026-10-07 15:14:37,485 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: CURR 1.0
+2026-10-07 15:14:37,486 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'CURR 1.0'
+2026-10-07 15:14:37,505 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:37,506 [INFO] hw_test_agent (executor.py:21) - Executing Step 2: Set PSU voltage to 5.0V
+2026-10-07 15:14:37,528 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: VOLT 5.0
+2026-10-07 15:14:37,528 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'VOLT 5.0'
+2026-10-07 15:14:37,565 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:37,565 [INFO] hw_test_agent (executor.py:21) - Executing Step 3: Turn on power supply output
+2026-10-07 15:14:37,588 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP ON
+2026-10-07 15:14:37,589 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP ON'
+2026-10-07 15:14:37,619 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:37,620 [INFO] hw_test_agent (executor.py:21) - Executing Step 4: Configure oscilloscope channel 1 AC coupled
+2026-10-07 15:14:37,658 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: CHAN1:COUP AC
+2026-10-07 15:14:37,659 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'CHAN1:COUP AC'
+2026-10-07 15:14:37,707 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:37,707 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: CHAN1:SCAL 0.05
+2026-10-07 15:14:37,740 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'CHAN1:SCAL 0.05'
+2026-10-07 15:14:37,792 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:37,793 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: TIM:SCAL 0.001
+2026-10-07 15:14:37,803 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'TIM:SCAL 0.001'
+2026-10-07 15:14:37,818 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:37,818 [INFO] hw_test_agent (executor.py:21) - Executing Step 5: Wait for AC coupling settling
+2026-10-07 15:14:37,897 [DEBUG] hw_test_agent (executor.py:28) - Waiting for 0.1 seconds...
+2026-10-07 15:14:38,003 [INFO] hw_test_agent (executor.py:21) - Executing Step 6: Measure peak-to-peak AC ripple voltage (Vpp)
+2026-10-07 15:14:38,010 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: MEAS:VPP? CHAN1
+2026-10-07 15:14:38,013 [INFO] hw_test_agent (executor.py:47) - [SCOPE] QUERY 'MEAS:VPP? CHAN1' -> '0.02050'
+2026-10-07 15:14:38,075 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:38,076 [INFO] hw_test_agent (executor.py:21) - Executing Step 7: Safety Cleanup: Turn off power supply output
+2026-10-07 15:14:38,099 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:38,115 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP OFF'
+2026-10-07 15:14:38,130 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:38,153 [INFO] hw_test_agent (executor.py:99) - Executing mandatory safety cleanup: Turning PSU output OFF.
+2026-10-07 15:14:38,192 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:39,512 [INFO] hw_test_agent (reporter.py:184) - Generated HTML test report: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_ripple_pass0\reports/report.html
+2026-10-07 15:14:39,536 [INFO] hw_test_agent (reporter.py:194) - Exported test result JSON: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_ripple_pass0\reports/result.json
+2026-10-07 15:14:39,541 [INFO] hw_test_agent (orchestrator.py:128) - === Test Completed with Status: PASS ===
+2026-10-07 15:14:39,579 [INFO] hw_test_agent (orchestrator.py:50) - === Starting Hardware Test Execution for: 'measure 3.3V DC regulator output voltage accuracy within 2%' ===
+2026-10-07 15:14:39,585 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'measure 3.3V DC regulator output voltage accuracy within 2%'
+2026-10-07 15:14:39,591 [INFO] hw_test_agent (client.py:40) - LLMClient running in offline/mock mode.
+2026-10-07 15:14:39,596 [INFO] hw_test_agent (orchestrator.py:70) - Parsed TestSpec: DC Voltage Accuracy Test (Measurement: MeasurementType.DC_VOLTAGE)
+2026-10-07 15:14:39,601 [INFO] hw_test_agent (planner.py:13) - Planning step sequence for spec: DC Voltage Accuracy Test (MeasurementType.DC_VOLTAGE)
+2026-10-07 15:14:39,637 [INFO] hw_test_agent (orchestrator.py:105) - Test Execution Attempt 1/3
+2026-10-07 15:14:39,642 [INFO] hw_test_agent (simulated.py:26) - Connected to Simulated_PSU_DP832
+2026-10-07 15:14:39,652 [INFO] hw_test_agent (simulated.py:123) - Connected to Simulated_Scope_DSOX1204G
+2026-10-07 15:14:39,658 [INFO] hw_test_agent (executor.py:21) - Executing Step 1: Set current limit
+2026-10-07 15:14:39,662 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: CURR 1.0
+2026-10-07 15:14:39,663 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'CURR 1.0'
+2026-10-07 15:14:39,666 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:39,667 [INFO] hw_test_agent (executor.py:21) - Executing Step 2: Set PSU voltage to 3.3V
+2026-10-07 15:14:39,671 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: VOLT 3.3
+2026-10-07 15:14:39,671 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'VOLT 3.3'
+2026-10-07 15:14:39,676 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:39,677 [INFO] hw_test_agent (executor.py:21) - Executing Step 3: Turn on power supply output
+2026-10-07 15:14:39,680 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP ON
+2026-10-07 15:14:39,681 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP ON'
+2026-10-07 15:14:39,685 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:39,685 [INFO] hw_test_agent (executor.py:21) - Executing Step 4: Wait for rail settling
+2026-10-07 15:14:39,689 [DEBUG] hw_test_agent (executor.py:28) - Waiting for 0.1 seconds...
+2026-10-07 15:14:39,798 [INFO] hw_test_agent (executor.py:21) - Executing Step 5: Measure DC output voltage
+2026-10-07 15:14:39,828 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: MEAS:VOLT?
+2026-10-07 15:14:39,829 [INFO] hw_test_agent (executor.py:47) - [PSU] QUERY 'MEAS:VOLT?' -> '3.29772'
+2026-10-07 15:14:39,836 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:39,837 [INFO] hw_test_agent (executor.py:21) - Executing Step 6: Safety Cleanup: Turn off power supply output
+2026-10-07 15:14:39,841 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:39,841 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP OFF'
+2026-10-07 15:14:39,845 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:39,845 [INFO] hw_test_agent (executor.py:99) - Executing mandatory safety cleanup: Turning PSU output OFF.
+2026-10-07 15:14:39,850 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:40,627 [INFO] hw_test_agent (reporter.py:184) - Generated HTML test report: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_dc_voltage_pass0\reports/report.html
+2026-10-07 15:14:40,635 [INFO] hw_test_agent (reporter.py:194) - Exported test result JSON: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_dc_voltage_pass0\reports/result.json
+2026-10-07 15:14:40,639 [INFO] hw_test_agent (orchestrator.py:128) - === Test Completed with Status: PASS ===
+2026-10-07 15:14:40,664 [INFO] hw_test_agent (orchestrator.py:50) - === Starting Hardware Test Execution for: 'measure signal output frequency of oscillator around 1 kHz' ===
+2026-10-07 15:14:40,671 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'measure signal output frequency of oscillator around 1 kHz'
+2026-10-07 15:14:40,674 [INFO] hw_test_agent (client.py:40) - LLMClient running in offline/mock mode.
+2026-10-07 15:14:40,677 [INFO] hw_test_agent (orchestrator.py:70) - Parsed TestSpec: Frequency Measurement (Measurement: MeasurementType.FREQUENCY)
+2026-10-07 15:14:40,680 [INFO] hw_test_agent (planner.py:13) - Planning step sequence for spec: Frequency Measurement (MeasurementType.FREQUENCY)
+2026-10-07 15:14:40,712 [INFO] hw_test_agent (orchestrator.py:105) - Test Execution Attempt 1/3
+2026-10-07 15:14:40,716 [INFO] hw_test_agent (simulated.py:26) - Connected to Simulated_PSU_DP832
+2026-10-07 15:14:40,720 [INFO] hw_test_agent (simulated.py:123) - Connected to Simulated_Scope_DSOX1204G
+2026-10-07 15:14:40,722 [INFO] hw_test_agent (executor.py:21) - Executing Step 1: Set current limit
+2026-10-07 15:14:40,726 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: CURR 1.0
+2026-10-07 15:14:40,726 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'CURR 1.0'
+2026-10-07 15:14:40,728 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:40,729 [INFO] hw_test_agent (executor.py:21) - Executing Step 2: Set PSU voltage to 3.3V
+2026-10-07 15:14:40,732 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: VOLT 3.3
+2026-10-07 15:14:40,732 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'VOLT 3.3'
+2026-10-07 15:14:40,735 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:40,735 [INFO] hw_test_agent (executor.py:21) - Executing Step 3: Turn on power supply output
+2026-10-07 15:14:40,739 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP ON
+2026-10-07 15:14:40,739 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP ON'
+2026-10-07 15:14:40,742 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:40,742 [INFO] hw_test_agent (executor.py:21) - Executing Step 4: Configure oscilloscope channel 1 DC coupled
+2026-10-07 15:14:40,746 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: CHAN1:COUP DC
+2026-10-07 15:14:40,746 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'CHAN1:COUP DC'
+2026-10-07 15:14:40,749 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:40,749 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: TIM:SCAL 0.001
+2026-10-07 15:14:40,750 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'TIM:SCAL 0.001'
+2026-10-07 15:14:40,754 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:40,754 [INFO] hw_test_agent (executor.py:21) - Executing Step 5: Measure frequency
+2026-10-07 15:14:40,756 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: MEAS:FREQ? CHAN1
+2026-10-07 15:14:40,757 [INFO] hw_test_agent (executor.py:47) - [SCOPE] QUERY 'MEAS:FREQ? CHAN1' -> '1001.63'
+2026-10-07 15:14:40,760 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:40,760 [INFO] hw_test_agent (executor.py:21) - Executing Step 6: Safety Cleanup: Turn off power supply output
+2026-10-07 15:14:40,763 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:40,763 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP OFF'
+2026-10-07 15:14:40,767 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:40,767 [INFO] hw_test_agent (executor.py:99) - Executing mandatory safety cleanup: Turning PSU output OFF.
+2026-10-07 15:14:40,770 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:41,643 [INFO] hw_test_agent (reporter.py:184) - Generated HTML test report: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_frequency_pass0\reports/report.html
+2026-10-07 15:14:41,652 [INFO] hw_test_agent (reporter.py:194) - Exported test result JSON: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_frequency_pass0\reports/result.json
+2026-10-07 15:14:41,656 [INFO] hw_test_agent (orchestrator.py:128) - === Test Completed with Status: PASS ===
+2026-10-07 15:14:41,677 [WARNING] hw_test_agent (simulated.py:193) - Injected fault into Simulated_Scope_DSOX1204G: high_ripple
+2026-10-07 15:14:41,682 [INFO] hw_test_agent (orchestrator.py:50) - === Starting Hardware Test Execution for: 'check that the output ripple of this power supply is under 50 mV' ===
+2026-10-07 15:14:41,686 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'check that the output ripple of this power supply is under 50 mV'
+2026-10-07 15:14:41,692 [INFO] hw_test_agent (client.py:40) - LLMClient running in offline/mock mode.
+2026-10-07 15:14:41,695 [INFO] hw_test_agent (orchestrator.py:70) - Parsed TestSpec: Ripple Test (Measurement: MeasurementType.RIPPLE)
+2026-10-07 15:14:41,700 [INFO] hw_test_agent (planner.py:13) - Planning step sequence for spec: Ripple Test (MeasurementType.RIPPLE)
+2026-10-07 15:14:41,740 [INFO] hw_test_agent (orchestrator.py:105) - Test Execution Attempt 1/1
+2026-10-07 15:14:41,745 [INFO] hw_test_agent (simulated.py:26) - Connected to Simulated_PSU_DP832
+2026-10-07 15:14:41,749 [INFO] hw_test_agent (simulated.py:123) - Connected to Simulated_Scope_DSOX1204G
+2026-10-07 15:14:41,753 [INFO] hw_test_agent (executor.py:21) - Executing Step 1: Set current limit
+2026-10-07 15:14:41,757 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: CURR 1.0
+2026-10-07 15:14:41,757 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'CURR 1.0'
+2026-10-07 15:14:41,763 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:41,764 [INFO] hw_test_agent (executor.py:21) - Executing Step 2: Set PSU voltage to 5.0V
+2026-10-07 15:14:41,769 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: VOLT 5.0
+2026-10-07 15:14:41,769 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'VOLT 5.0'
+2026-10-07 15:14:41,772 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:41,772 [INFO] hw_test_agent (executor.py:21) - Executing Step 3: Turn on power supply output
+2026-10-07 15:14:41,777 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP ON
+2026-10-07 15:14:41,777 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP ON'
+2026-10-07 15:14:41,782 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:41,783 [INFO] hw_test_agent (executor.py:21) - Executing Step 4: Configure oscilloscope channel 1 AC coupled
+2026-10-07 15:14:41,787 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: CHAN1:COUP AC
+2026-10-07 15:14:41,788 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'CHAN1:COUP AC'
+2026-10-07 15:14:41,791 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:41,792 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: CHAN1:SCAL 0.05
+2026-10-07 15:14:41,792 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'CHAN1:SCAL 0.05'
+2026-10-07 15:14:41,797 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:41,798 [DEBUG] hw_test_agent (simulated.py:130) - [Simulated_Scope_DSOX1204G] WRITE: TIM:SCAL 0.001
+2026-10-07 15:14:41,799 [INFO] hw_test_agent (executor.py:50) - [SCOPE] WRITE 'TIM:SCAL 0.001'
+2026-10-07 15:14:41,804 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:41,804 [INFO] hw_test_agent (executor.py:21) - Executing Step 5: Wait for AC coupling settling
+2026-10-07 15:14:41,811 [DEBUG] hw_test_agent (executor.py:28) - Waiting for 0.1 seconds...
+2026-10-07 15:14:41,913 [INFO] hw_test_agent (executor.py:21) - Executing Step 6: Measure peak-to-peak AC ripple voltage (Vpp)
+2026-10-07 15:14:41,917 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: MEAS:VPP? CHAN1
+2026-10-07 15:14:41,919 [INFO] hw_test_agent (executor.py:47) - [SCOPE] QUERY 'MEAS:VPP? CHAN1' -> '0.08816'
+2026-10-07 15:14:41,924 [DEBUG] hw_test_agent (simulated.py:152) - [Simulated_Scope_DSOX1204G] QUERY: SYST:ERR?
+2026-10-07 15:14:41,924 [INFO] hw_test_agent (executor.py:21) - Executing Step 7: Safety Cleanup: Turn off power supply output
+2026-10-07 15:14:41,930 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:41,930 [INFO] hw_test_agent (executor.py:50) - [PSU] WRITE 'OUTP OFF'
+2026-10-07 15:14:41,936 [DEBUG] hw_test_agent (simulated.py:60) - [Simulated_PSU_DP832] QUERY: SYST:ERR?
+2026-10-07 15:14:41,937 [INFO] hw_test_agent (executor.py:99) - Executing mandatory safety cleanup: Turning PSU output OFF.
+2026-10-07 15:14:41,941 [DEBUG] hw_test_agent (simulated.py:33) - [Simulated_PSU_DP832] WRITE: OUTP OFF
+2026-10-07 15:14:41,942 [INFO] hw_test_agent (orchestrator.py:133) - Invoking failure diagnosis engine...
+2026-10-07 15:14:43,053 [INFO] hw_test_agent (reporter.py:184) - Generated HTML test report: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_fault_injection_fail0\reports/report.html
+2026-10-07 15:14:43,063 [INFO] hw_test_agent (reporter.py:194) - Exported test result JSON: C:\Users\Lenovo\AppData\Local\Temp\pytest-of-Lenovo\pytest-10\test_e2e_fault_injection_fail0\reports/result.json
+2026-10-07 15:14:43,069 [INFO] hw_test_agent (orchestrator.py:128) - === Test Completed with Status: FAIL ===
+2026-10-07 15:14:43,095 [INFO] hw_test_agent (orchestrator.py:50) - === Starting Hardware Test Execution for: 'set power supply voltage to 50 V and measure output' ===
+2026-10-07 15:14:43,103 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'set power supply voltage to 50 V and measure output'
+2026-10-07 15:14:43,109 [INFO] hw_test_agent (client.py:40) - LLMClient running in offline/mock mode.
+2026-10-07 15:14:43,112 [INFO] hw_test_agent (orchestrator.py:70) - Parsed TestSpec: High Voltage Test (Measurement: MeasurementType.DC_VOLTAGE)
+2026-10-07 15:14:43,116 [INFO] hw_test_agent (planner.py:13) - Planning step sequence for spec: High Voltage Test (MeasurementType.DC_VOLTAGE)
+2026-10-07 15:14:43,165 [WARNING] hw_test_agent (validator.py:73) - Safety Validation Failure: ['Requested voltage 50.0V exceeds maximum safety limit of 12.0V']
+2026-10-07 15:14:43,172 [ERROR] hw_test_agent (orchestrator.py:82) - Dry Run Safety Check Failed: ['Requested voltage 50.0V exceeds maximum safety limit of 12.0V']
+2026-10-07 15:14:43,284 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'check that the output ripple of this power supply is under 50 mV'
+2026-10-07 15:14:43,295 [INFO] hw_test_agent (client.py:40) - LLMClient running in offline/mock mode.
+2026-10-07 15:14:43,308 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'measure 3.3V DC regulator output voltage accuracy'
+2026-10-07 15:14:43,316 [INFO] hw_test_agent (client.py:40) - LLMClient running in offline/mock mode.
+2026-10-07 15:14:43,335 [INFO] hw_test_agent (parser.py:20) - Parsing requirement text: 'check power supply'
+2026-10-07 15:14:43,603 [WARNING] hw_test_agent (validator.py:73) - Safety Validation Failure: ['Requested voltage 50.0V exceeds maximum safety limit of 12.0V']
+2026-10-07 15:14:43,624 [WARNING] hw_test_agent (validator.py:73) - Safety Validation Failure: ['Requested current limit 5.0A exceeds maximum safety limit of 2.0A']
+2026-10-07 15:14:43,684 [WARNING] hw_test_agent (validator.py:73) - Safety Validation Failure: ["Command 'FOOBAR:BAZ 123' is not in the allowed SCPI whitelist database"]

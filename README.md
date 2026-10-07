@@ -2,9 +2,12 @@
 
 > Convert plain-English test requirements (*"check output ripple of this 3.3V rail is under 50 mV"*) into validated SCPI command sequences, execute them over PyVISA (real hardware or simulator), evaluate limits, and generate HTML reports.
 
+[![Tests](https://github.com/ASHUTOSHNIMBALKAR/ai-hardware-test-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/ASHUTOSHNIMBALKAR/ai-hardware-test-agent/actions/workflows/tests.yml)
 [![Pytest Status](https://img.shields.io/badge/pytest-40%2F40%20passed-brightgreen.svg)](tests/)
 [![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+> **Validation scope:** Supports real instruments via PyVISA; validated end-to-end on a simulator with fault injection. Real-hardware connection instructions are included in the [Connecting Real Hardware](#-connecting-real-hardware) section.
 
 ---
 
@@ -48,9 +51,11 @@ flowchart TD
 
 ### Folder Layout
 ```
-hw_test_agent/
+ai-hardware-test-agent/
 ├── pyproject.toml              # Package configuration and dependencies
 ├── README.md                   # Project documentation
+├── LICENSE                     # MIT License
+├── .github/workflows/          # GitHub Actions CI
 ├── src/hw_test_agent/
 │   ├── cli.py                  # Typer CLI application (hwtest)
 │   ├── agent/
@@ -87,8 +92,8 @@ hw_test_agent/
 ### 1. Installation
 
 ```bash
-git clone https://github.com/your-username/hw_test_agent.git
-cd hw_test_agent
+git clone https://github.com/ASHUTOSHNIMBALKAR/ai-hardware-test-agent.git
+cd ai-hardware-test-agent
 pip install -e .
 ```
 
@@ -125,8 +130,8 @@ python -m hw_test_agent.cli "set power supply voltage to 50 V and measure output
 ## 📊 Viewing HTML Test Reports
 
 Each execution generates a self-contained HTML test report and JSON export in the `reports/` folder:
-* **HTML Report:** [`reports/report.html`](file:///d:/project/reports/report.html)
-* **JSON Result:** [`reports/result.json`](file:///d:/project/reports/result.json)
+* **HTML Report:** [`reports/report.html`](reports/report.html)
+* **JSON Result:** [`reports/result.json`](reports/result.json)
 
 The report includes:
 * **Test Status Badge:** PASS (Green), FAIL (Red), or ERROR (Yellow).
@@ -134,6 +139,10 @@ The report includes:
 * **Embedded Waveform Plot:** Matplotlib PNG plot showing measured signals and limit threshold lines.
 * **SCPI Command Audit Trail Table:** Timestamped log of every command sent and response received.
 * **Root-Cause Diagnostic Analysis:** AI-assisted troubleshooting notes on test failures.
+
+<p align="center">
+  <img src="docs/images/sample_report.png" alt="Sample HTML Test Report – Frequency Measurement PASS" width="100%">
+</p>
 
 ---
 
@@ -188,14 +197,29 @@ print(f"Report: reports/report.html")
 If no environment variables are set, `LLMClient` runs in mock mode for offline testing and CI workflows.
 
 ### 2. OpenAI API
-```bash
+
+**Windows:**
+```bat
 set OPENAI_API_KEY=sk-proj-your-api-key
 ```
 
-### 3. Local LLM (Ollama, vLLM, LM Studio)
+**Linux / macOS:**
 ```bash
+export OPENAI_API_KEY=sk-proj-your-api-key
+```
+
+### 3. Local LLM (Ollama, vLLM, LM Studio)
+
+**Windows:**
+```bat
 set LLM_API_KEY=local-key
 set LLM_BASE_URL=http://localhost:11434/v1
+```
+
+**Linux / macOS:**
+```bash
+export LLM_API_KEY=local-key
+export LLM_BASE_URL=http://localhost:11434/v1
 ```
 
 ---
@@ -221,6 +245,10 @@ python -m pytest -v
 ```
 
 ```text
+============================= test session info =============================
+platform win32 -- Python 3.13.7, pytest-9.1.1, pluggy-1.6.0
+rootdir: D:\project  |  configfile: pyproject.toml  |  testpaths: tests
+
 tests/test_end_to_end.py::test_e2e_ripple_pass PASSED                    [  2%]
 tests/test_end_to_end.py::test_e2e_dc_voltage_pass PASSED                [  5%]
 tests/test_end_to_end.py::test_e2e_frequency_pass PASSED                 [  7%]
@@ -233,10 +261,36 @@ tests/test_evaluator.py::test_detect_outliers PASSED                     [ 22%]
 tests/test_parser.py::test_parse_requirement_ripple PASSED               [ 25%]
 tests/test_parser.py::test_parse_requirement_dc_voltage PASSED           [ 27%]
 tests/test_parser.py::test_parse_requirement_ambiguous PASSED            [ 30%]
-tests/test_units.py::test_parse_quantity PASSED                          [ 75%]
-tests/test_validator.py::test_validator_safe_voltage PASSED              [100%]
+tests/test_units.py::test_parse_quantity[50 mV-0.05-V] PASSED            [ 32%]
+tests/test_units.py::test_parse_quantity[50mv-0.05-V] PASSED             [ 35%]
+tests/test_units.py::test_parse_quantity[0.05 V-0.05-V] PASSED          [ 37%]
+tests/test_units.py::test_parse_quantity[3.3V-3.3-V] PASSED             [ 40%]
+tests/test_units.py::test_parse_quantity[100 mA-0.1-A] PASSED           [ 42%]
+tests/test_units.py::test_parse_quantity[1.2 kHz-1200.0-Hz] PASSED      [ 45%]
+tests/test_units.py::test_parse_quantity[50 uV-5e-05-V] PASSED          [ 47%]
+tests/test_units.py::test_parse_quantity[50 μV-5e-05-V] PASSED          [ 50%]
+tests/test_units.py::test_parse_quantity[10 nS-1e-08-s] PASSED          [ 52%]
+tests/test_units.py::test_parse_quantity[< 50 mV-0.05-V] PASSED         [ 55%]
+tests/test_units.py::test_parse_quantity[> 3.3 V-3.3-V] PASSED          [ 57%]
+tests/test_units.py::test_parse_quantity[± 5 %-5.0-%] PASSED            [ 60%]
+tests/test_units.py::test_parse_quantity[50-50.0-] PASSED               [ 62%]
+tests/test_units.py::test_parse_quantity[0.05-0.05-] PASSED             [ 65%]
+tests/test_units.py::test_parse_quantity[100-100.0-] PASSED             [ 67%]
+tests/test_units.py::test_to_si PASSED                                   [ 70%]
+tests/test_units.py::test_format_quantity PASSED                         [ 72%]
+tests/test_units.py::test_within_limit_max_pass PASSED                   [ 75%]
+tests/test_units.py::test_within_limit_max_fail PASSED                   [ 77%]
+tests/test_units.py::test_within_limit_tolerance PASSED                  [ 80%]
+tests/test_validator.py::test_validator_safe_voltage PASSED              [ 82%]
+tests/test_validator.py::test_validator_overvoltage_blocked PASSED       [ 85%]
+tests/test_validator.py::test_validator_overcurrent_blocked PASSED       [ 87%]
+tests/test_validator.py::test_validator_dangerous_keyword_blocked PASSED [ 90%]
+tests/test_validator.py::test_validator_unwhitelisted_scpi_blocked PASSED [ 92%]
+tests/test_validator.py::test_validator_step_order_valid PASSED          [ 95%]
+tests/test_validator.py::test_validator_step_order_missing_current_limit PASSED [ 97%]
+tests/test_validator.py::test_validator_step_order_missing_disable_output PASSED [100%]
 
-============================= 40 passed in 2.64s ==============================
+============================= 40 passed in 9.68s ==============================
 ```
 
 ---
@@ -259,6 +313,27 @@ tests/test_validator.py::test_validator_safe_voltage PASSED              [100%]
 
 ---
 
+## 🗺️ Limitations & Roadmap
+
+### Current Limitations
+| Area | Status |
+|------|--------|
+| Validated instruments | Simulated PSU + Oscilloscope via `pyvisa-sim` |
+| Real-hardware testing | PyVISA driver written and tested structurally; full end-to-end on physical hardware pending lab access |
+| LLM dependency | Mock mode fully functional; OpenAI/Gemini API key required for live LLM parsing |
+| Multi-channel support | Single PSU + single Oscilloscope per session |
+| Supported measurement types | DC Voltage, AC Ripple (Vpp), Frequency |
+
+### Roadmap
+- [ ] **Multi-channel instrument support** — test multiple rails in a single session
+- [ ] **More instrument types** — DMM (Keithley 2400), Signal Generator, Electronic Load
+- [ ] **Web UI** — browser-based dashboard to submit test requirements and view live reports
+- [ ] **LLM provider expansion** — local Ollama/vLLM end-to-end testing
+- [ ] **CI matrix on Linux** — run tests across Ubuntu/macOS runners in GitHub Actions
+- [ ] **Report diff mode** — compare two test result JSONs and flag regressions
+
+---
+
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for details.
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
