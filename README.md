@@ -34,16 +34,16 @@ Writing these scripts manually is slow and error-prone. A wrong voltage setting 
 
 ```mermaid
 flowchart TD
-    A[User Requirement in Plain English] --> B[1. Requirement Parser]
-    B -->|TestSpec JSON| C[2. Test Planner]
-    C -->|Ordered TestSteps| D[3. SCPI Command Generator]
-    D -->|Generated SCPI Commands| E[4. Safety Validator Guardrails]
-    E -->|Validated Commands| F[5. Instrument Driver PyVISA / Simulator]
-    F -->|Raw Instrument Replies| G[6. Measurement Parser]
-    G -->|Parsed Quantities & Units| H[7. Evaluator]
-    H -->|PASS / FAIL / ERROR| I[8. HTML / JSON Report Generator]
-    H -->|If FAIL| J[9. Diagnostic Engine]
-    J -->|Root Cause Notes| I
+    A["User Requirement in Plain English"] --> B["1. Requirement Parser"]
+    B -->|"TestSpec JSON"| C["2. Test Planner"]
+    C -->|"Ordered TestSteps"| D["3. SCPI Command Generator"]
+    D -->|"Generated SCPI Commands"| E["4. Safety Validator Guardrails"]
+    E -->|"Validated Commands"| F["5. Instrument Driver (PyVISA / Simulator)"]
+    F -->|"Raw Instrument Replies"| G["6. Measurement Parser"]
+    G -->|"Parsed Quantities & Units"| H["7. Evaluator"]
+    H -->|"PASS / FAIL / ERROR"| I["8. HTML & JSON Report Generator"]
+    H -->|"If FAIL"| J["9. Diagnostic Engine"]
+    J -->|"Root Cause Notes"| I
 ```
 
 ### Folder Layout
